@@ -2,9 +2,11 @@ import Foundation
 
 extension JSONEncoder {
     /// Generic, style-driven encoder
-    public static func encoder(keyCase: CaseStyle,
-                               separators: SeparatorPolicy = .commonWithDot,
-                               outputFormatting: JSONEncoder.OutputFormatting = .prettyPrinted) -> JSONEncoder {
+    public static func encoder(
+        keyCase: CaseStyle,
+        separators: SeparatorPolicy = .commonWithDot,
+        outputFormatting: JSONEncoder.OutputFormatting = .prettyPrinted
+    ) -> JSONEncoder {
         let enc = JSONEncoder()
         enc.outputFormatting = outputFormatting
         enc.keyEncodingStrategy = .custom { path in
@@ -29,9 +31,11 @@ extension JSONEncoder {
 extension JSONDecoder {
     /// Generic, style-driven decoder. `from` is the expected style in the JSON input.
     /// `to` is the style your Swift property names use (default: camel).
-    public static func decoder(from: CaseStyle,
-                               to: CaseStyle = .camel,
-                               separators: SeparatorPolicy = .commonWithDot) -> JSONDecoder {
+    public static func decoder(
+        from: CaseStyle,
+        to: CaseStyle = .camel,
+        separators: SeparatorPolicy = .commonWithDot
+    ) -> JSONDecoder {
         let dec = JSONDecoder()
         dec.keyDecodingStrategy = .custom { path in
             let incoming = path.last!.stringValue

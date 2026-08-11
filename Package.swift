@@ -1,26 +1,48 @@
 // swift-tools-version: 6.2
-// The swift-tools-version declares the minimum version of Swift required to build this package.
-
 import PackageDescription
 
 let package = Package(
     name: "Variables",
+    platforms: [
+        .macOS(.v13),
+    ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "Variables",
-            targets: ["Variables"]
+            targets: [
+                "Variables",
+            ]
+        ),
+        .executable(
+            name: "casecon",
+            targets: [
+                "CaseCon",
+            ]
+        ),
+    ],
+    dependencies: [
+        .package(
+            url: "https://github.com/leviouwendijk/Primitives.git",
+            branch: "master"
+        ),
+        .package(
+            url: "https://github.com/leviouwendijk/Arguments.git",
+            branch: "master"
         ),
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "Variables"
+            name: "Variables",
+            dependencies: [
+                "Primitives",
+            ]
         ),
-        .testTarget(
-            name: "VariablesTests",
-            dependencies: ["Variables"]
+        .executableTarget(
+            name: "CaseCon",
+            dependencies: [
+                "Arguments",
+                "Primitives",
+            ]
         ),
     ]
 )

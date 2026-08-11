@@ -1,3 +1,5 @@
+import Primitives
+
 public enum SynthesizedSymbol: String, RawRepresentable, Sendable, Codable {
     case app_name
     case api_key
@@ -22,7 +24,9 @@ public enum SynthesizedSymbol: String, RawRepresentable, Sendable, Codable {
 
         res.append(options.suffix.rawValue)
         let joined = res.joined()
-        let styled = convertIdentifier(joined, to: options.style)
+        let styled = joined.casing.as(
+            options.casing
+        )
         let formatted = options.formatting.apply(styled)
         return formatted
     }
@@ -31,23 +35,34 @@ public enum SynthesizedSymbol: String, RawRepresentable, Sendable, Codable {
         name: String?,
         using options: SyntheticSymbolOptions
     ) throws -> String {
-        guard let name else { throw SyntheticSymbolError.nameIsEmpty }
-        return synthesize(name: name, using: options)
+        guard let name else {
+            throw SyntheticSymbolError.nameIsEmpty
+        }
+
+        return synthesize(
+            name: name,
+            using: options
+        )
     }
 
     public func synthesize(
-        name: String,
+        name: String
     ) -> String {
         var options = SyntheticSymbolOptions()
         options.suffix = self
 
-        return Self.synthesize(name: name, using: options)
+        return Self.synthesize(
+            name: name,
+            using: options
+        )
     }
 
     public static func synthesize(
         name: String,
         suffix: SynthesizedSymbol
     ) -> String {
-        return suffix.synthesize(name: name)
+        suffix.synthesize(
+            name: name
+        )
     }
 }
